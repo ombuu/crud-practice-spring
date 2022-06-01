@@ -4,15 +4,17 @@ import java.util.Date;
 import java.util.Objects;
 
 public class BoardDto {
-    private Integer bno;
-    private String title;
-    private String content;
-    private String writer;
-    private int view_cnt;
-    private int comment_cnt;
-    private Date reg_date;
+    //board 테이블의 컬럼들을 참고해서 작성
+    private Integer bno; //게시물 번호
+    private String title; //게시물 제목
+    private String content; //게시물 내용
+    private String writer; //작성자
+    private int view_cnt; //조회수
+    private int comment_cnt; // 댓글 갯수
+    private Date reg_date; // 등록일
 //    private Date up_date;
 
+    //생성자와 기본 생성자
     public BoardDto(){}
     public BoardDto(String title, String content, String writer) {
         this.title = title;
@@ -20,6 +22,9 @@ public class BoardDto {
         this.writer = writer;
     }
 
+    //toString과 equlas생성
+    //equals에서는 bno,title,content,writer만 해준다.
+    //view-counter나 다른것들은 바뀔 수 있는것들이다. --> 같은 게시물인데 다르다고 나오면 안돼므로
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,6 +51,7 @@ public class BoardDto {
                 '}';
     }
 
+    //getter setter --> 이게 있어야 myBatis가 자동으로 값을 읽어오고 채워주고 한다.
     public Integer getBno() {
         return bno;
     }

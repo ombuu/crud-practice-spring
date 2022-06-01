@@ -14,6 +14,8 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 public class BoardDaoImplTest {
+
+    //Dao 주입받기
     @Autowired
     private BoardDao boardDao;
 
@@ -67,6 +69,7 @@ public class BoardDaoImplTest {
 
     }
 
+    //게시물 넣는 테스트
     @Test
     public void insertTestDate()throws Exception{
         boardDao.deleteAll();

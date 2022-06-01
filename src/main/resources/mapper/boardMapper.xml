@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--namespace는 이름을 구별하기 위한 공간입니다. 쉽게 얘기하면 id는 구별되어야 하므로 별도의 그룹으로 나눕니다.
+그래야 id의 충돌하는 경우가 적어지니까. 다른 이유도 있는데 일단 이 정도만 알아두시기 바랍니다.-->
 <mapper namespace="com.fastcampus.ch4.dao.BoardMapper">
+
+<!--    전체 게시물 걋수 가져오기-->
     <select id="count" resultType="int">
         SELECT count(*)
         FROM board
@@ -13,6 +17,7 @@
         FROM board
     </delete>
 
+<!--    삭제할 때는 게시물 번호하고 작성자하고 일치해야 삭제 가능 -->
     <delete id="delete" parameterType="map">
         DELETE
         FROM board
@@ -20,6 +25,7 @@
           and writer = #{writer}
     </delete>
 
+<!--    매개변수로 BoardDto를 주면  #{}이걸 채워주는것 -->
     <insert id="insert" parameterType="BoardDto">
         INSERT INTO board
             (title, content, writer)
@@ -37,11 +43,16 @@
         FROM board
     </sql>
 
+<!--    게시물 읽을 때 게시물 번호에 해당하는걸 읽어와야 하니깐  WHERE bno = #{bno} 조건 주고 parameterType="int" 파라미터 타입을 int로 줬다. -->
+<!-- resultType="BoardDto" 원래는 리절트 타입을 줄줄 다 적어야 되는데 MyBatis-config.xml에서 typeAlias 에 추가해 줬다.    -->
+<!--    이거 호출하려면 boardDao필요하다.-->
+<!--    게시물 번호 주면(bno) 게시물 하나 읽어오는것-->
     <select id="select" parameterType="int" resultType="BoardDto">
         <include refid="selectFromBoard"/>
         WHERE bno = #{bno}
     </select>
 
+<!--    페이징 값은 두개가 필요하므로 parameterType으로 map사용  -->
     <select id="selectPage" parameterType="map" resultType="BoardDto">
         <include refid="selectFromBoard"/>
         ORDER BY reg_date DESC, bno DESC
@@ -53,7 +64,7 @@
         SET title   = #{title}
           , content = #{content}
           , up_date = now()
-        WHERE bno = #{bno}
+        WHERE bno = #{bno} and writer = #{writer}
     </update>
 
     <update id="updateCommentCnt" parameterType="map">
@@ -62,12 +73,14 @@
         WHERE bno = #{bno}
     </update>
 
+<!--    조회 했을 때 조회수 올리기-->
     <update id="increaseViewCnt" parameterType="int">
         UPDATE board
         SET view_cnt = view_cnt + 1
         WHERE bno = #{bno}
     </update>
 
+<!--    검색-->
     <sql id="searchCondition">
         <choose>
             <when test='option=="T"'>
@@ -92,6 +105,7 @@
         LIMIT #{offset}, #{pageSize}
     </select>
 
+<!--  cnt 검색결과가 몇개인지 알아야 페이징 할 수 있다.   -->
     <select id="searchResultCnt" parameterType="SearchCondition" resultType="int">
         SELECT count(*)
         FROM board
@@ -99,10 +113,6 @@
         <include refid="searchCondition"/>
     </select>
 
-    <update id="updateCommentCnt" parameterType="map">
-        UPDATE board
-        SET comment_cnt = comment_cnt + #{comment_cnt}
-        WHERE bno = #{bno}
-    </update>
+
 
 </mapper>

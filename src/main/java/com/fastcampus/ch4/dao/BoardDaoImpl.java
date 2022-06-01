@@ -7,8 +7,10 @@ import org.springframework.stereotype.*;
 
 import java.util.*;
 
-@Repository
+//boardMapper.xml의 sql을 다 작성한 다음에는 Dao를 작성해야한다. 먼저 sqlSession주입 받고, mapper보면서 하나씩 작성하면 된다.
+@Repository //빈으로 등록
 public class BoardDaoImpl implements BoardDao {
+//    dao에서 SqlSession의 메서드를 호출하면 MyBatis가 Mapper의 SQL을 이용해서 DB에서 데이터를 처리합니다.
     @Autowired
     private SqlSession session;
     private static String namespace = "com.fastcampus.ch4.dao.BoardMapper.";
@@ -43,6 +45,9 @@ public class BoardDaoImpl implements BoardDao {
 
     @Override
     public BoardDto select(Integer bno) throws Exception {
+        //session 이용해서 한줄 바꾸면 selectOne쓰고 sql id와 input 타입 = parameterType (bno -> int)
+        //이걸 호출하면 boardMapper.xml에 있는 select sql문이 실행되고 그 결과를 받게 된다.
+        //sqlSession을 주입받아서 거기있는 메서드인 selectOne을 이용해서 데이터를 가져오는것이다.
         return session.selectOne(namespace + "select", bno);
     } // T selectOne(String statement, Object parameter)
 

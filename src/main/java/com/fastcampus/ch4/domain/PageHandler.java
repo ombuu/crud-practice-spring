@@ -46,6 +46,7 @@ public class PageHandler {
         this.sc = sc;
     }
 
+    //getter setter
     public int getTotalCnt() {
         return totalCnt;
     }
@@ -53,7 +54,6 @@ public class PageHandler {
     public void setTotalCnt(int totalCnt) {
         this.totalCnt = totalCnt;
     }
-
 
     public int getNaviSize() {
         return naviSize;

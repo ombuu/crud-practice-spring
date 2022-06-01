@@ -211,6 +211,7 @@
                 <th class="regdate">등록일</th>
                 <th class="viewcnt">조회수</th>
             </tr>
+<%--            반복문 돌려서 게시물 나오게 하기 --%>
             <c:forEach var="boardDto" items="${list}">
                 <tr>
                     <td class="no">${boardDto.bno}</td>

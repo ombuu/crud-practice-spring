@@ -107,7 +107,7 @@
         <button type="button" id="listBtn" class="btn btn-list"><i class="fa fa-bars"></i> 목록</button>
     </form>
 </div>
-<script>
+<script> <%--jquery--%>
     $(document).ready(function(){
         let formCheck = function() {
             let form = document.getElementById("form");
@@ -161,6 +161,7 @@
         $("#removeBtn").on("click", function(){
             if(!confirm("정말로 삭제하시겠습니까?")) return;
 
+            //POST로 처리하는 과정
             let form = $("#form");
             form.attr("action", "<c:url value='/board/remove${searchCondition.queryString}'/>");
             form.attr("method", "post");
